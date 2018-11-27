@@ -4,13 +4,20 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>5c4e9a42-92e9-4e99-8013-90498ca27ee6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Mediation.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <StartupFile>app.py</StartupFile>
+    <SearchPath>org</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>Mediation</Name>
     <RootNamespace>Mediation</RootNamespace>
+    <InterpreterId>CondaEnv|CondaEnv|billingEngine</InterpreterId>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
+    <Environment>SPARK_HOME=D:\Softwares\Anaconda3\envs\billingEngine\Lib\site-packages\pyspark
+HADOOP_HOME=D:\Softwares\Anaconda3\envs\billingEngine\Lib\site-packages\pyspark
+APP_HOME=D:\BillingEngine\Mediation</Environment>
+    <CommandLineArguments>
+    </CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +28,48 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Mediation.py" />
+    <Compile Include="app.py" />
+    <Compile Include="org\sfu\billing\controller\controller.py" />
+    <Compile Include="org\sfu\billing\controller\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="org\sfu\billing\mediation\MediationCdr.py" />
+    <Compile Include="org\sfu\billing\mediation\MediationProcess.py" />
+    <Compile Include="org\sfu\billing\mediation\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="org\sfu\billing\rating\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="org\sfu\billing\utils\propertiesReader.py" />
+    <Compile Include="org\sfu\billing\utils\configurations.py" />
+    <Compile Include="org\sfu\billing\utils\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="org\sfu\billing\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="org\sfu\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="org\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="org\" />
+    <Folder Include="org\sfu\" />
+    <Folder Include="org\sfu\billing\" />
+    <Folder Include="org\sfu\billing\controller\" />
+    <Folder Include="org\sfu\billing\mediation\" />
+    <Folder Include="org\sfu\billing\rating\" />
+    <Folder Include="org\sfu\billing\utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="CondaEnv|CondaEnv|billingEngine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
