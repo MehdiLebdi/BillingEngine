@@ -33,6 +33,12 @@ APP_HOME=D:\BillingEngine\Mediation</Environment>
     <Compile Include="org\sfu\billing\controller\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="org\sfu\billing\devices\cdr.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="org\sfu\billing\devices\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="org\sfu\billing\mediation\MediationCdr.py" />
     <Compile Include="org\sfu\billing\mediation\MediationProcess.py" />
     <Compile Include="org\sfu\billing\mediation\__init__.py">
@@ -61,6 +67,7 @@ APP_HOME=D:\BillingEngine\Mediation</Environment>
     <Folder Include="org\sfu\" />
     <Folder Include="org\sfu\billing\" />
     <Folder Include="org\sfu\billing\controller\" />
+    <Folder Include="org\sfu\billing\devices\" />
     <Folder Include="org\sfu\billing\mediation\" />
     <Folder Include="org\sfu\billing\rating\" />
     <Folder Include="org\sfu\billing\utils\" />

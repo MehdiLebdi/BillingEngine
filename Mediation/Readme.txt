@@ -7,3 +7,14 @@ HADOOP_HOME=D:\Softwares\Anaconda3\envs\billingEngine\Lib\site-packages\pyspark
 
 #APP_HOME variable is used to identify location where config files are kept
 APP_HOME=D:\BillingEngine\Mediation
+
+Launching kafka in windows:
+
+1. Start zookeeper:
+bin\windows\zookeeper-server-start.bat config/zookeeper.properties
+
+2. Start kafka server:
+bin\windows\kafka-server-start.bat config\server.properties
+
+3. Start producer:(Simulator for project/producer console for local testing)
+bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic events

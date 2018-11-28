@@ -6,6 +6,7 @@ class SparkConfig:
 
     properties = Properties.load_properties()
 
+    #TODO: Take dependencies(spark.jars.packages) from properties file
     @staticmethod
     def get_spark():
         print(SparkConfig.properties["DATABASE"]["DB_INPUT_URI"])
@@ -25,34 +26,23 @@ class SparkConfig:
         bootstrap_servers = SparkConfig.properties["KAFKA"]["SERVER_IP"] + ':' + SparkConfig.properties["KAFKA"]["SERVER_PORT"]
         topics = SparkConfig.properties["KAFKA"]["TOPIC_NAMES"]
 
-        print("type of ============ ", type(bootstrap_servers))
-
         messages = spark.readStream.format('kafka') \
-            .option('kafka.bootstrap.servers', bootstrap_servers) \
-            .option('subscribe', topics) \
-             .load()
-
+                        .option('kafka.bootstrap.servers', bootstrap_servers) \
+                        .option('subscribe', topics) \
+                        .load()
         return messages
-    
-    
 
+    #TODO: Take streaming time from properties file
+    @staticmethod
+    def stopStreaming(streamingQuery):
+        streamingQuery.awaitTermination(900000)
+
+    
+    
+#TODO: This method needs to be moved to data layer
 def save_batch(df, epoch_id):
         df.write.format("com.mongodb.spark.sql.DefaultSource").mode("append") \
             .option("database","billing") \
             .option("collection", "custEventSource") \
             .save()
         pass
-    
-def main():
-    #spark = SparkSession.builder.getOrCreate()
-    spark_config = SparkConfig()  # ("events")
-    messages = spark_config.get_events()
-
-    stream = messages.writeStream.foreachBatch(save_batch).start()
-    print("type of stream: ", type(stream))
-    stream.awaitTermination(900000)
-    #print("Spark version:  ",spark.version)
-
-
-if __name__ == '__main__':
-    main()

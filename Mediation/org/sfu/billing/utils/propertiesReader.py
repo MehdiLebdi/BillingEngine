@@ -21,15 +21,3 @@ class Properties:
         config.set("DATABASE","DB_OUTPUT_URI",DB_OUTPUT_URI)
 
         return config
-
-def main():
-     properties = Properties.load_properties()
-     print(properties["DATABASE"]["DB_INPUT_URI"])
-     print(properties['SPARK']['SERVER_IP'])
-     print("Process completed")
-
-     #print("======",properties.get("SERVER_IP"))
-
-
-if __name__ == "__main__":
-         main()
