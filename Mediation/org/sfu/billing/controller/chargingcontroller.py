@@ -6,8 +6,6 @@ from org.sfu.billing.devices.cdr import CallDetailRecord
 from pyspark.sql import functions
 from pyspark.sql.functions import split
 
-
-
 class Controller:
     """
     Controller class is used to control lifecycle of entire application. It invokes all modules in logical sequence.
@@ -39,16 +37,9 @@ class Controller:
         events = self.stream_rawCdr()
         cdr = self.device_type(events)
         mapped_df = cdr.map(events)
-
-
-        stream = mapped_df.writeStream.foreachBatch(configurations.save_batch).start()
+        normalized_frame = cdr.invoke_mediation(mapped_df)
+        #rated_frame = cdr.invoke_rating(normalized_frame)
+        #stream = rated_frame.writeStream.foreachBatch(configurations.save_batch).start()
+        stream = normalized_frame.writeStream.foreachBatch(configurations.save_batch).start()
         self.spark_config.stopStreaming(stream)
-        pass
-        
-        
-def main():
-    controller = Controller()
-    controller.process()
-
-if __name__ == "__main__":
-    main()
+        pass        

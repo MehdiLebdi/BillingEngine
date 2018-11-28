@@ -1,27 +1,20 @@
-from billing.mediation import MediationProcess
+from org.sfu.billing.mediation.mediationprocess import MediationProcess
 
 class MediationCdr(MediationProcess):
-    """description of class"""
+    """Implementation class for MediationProcess for cdr"""
 
-    def __init__(self, df):
-        self.df = df
-
-    def validate(self, dataframe):
-        print("Validate method....")
-        return "validation"
-
-    def aggregate(self, dataframe):
-        print("Aggregated frame")
-        return "Aggregation"
-
-    def execute(self, mapped_frame):
-        validated_frames = validate(self, mapped_frame)
-        aggregated_frames = aggregate(validated_frames)
-        return aggregated_frames
-
-x= MediationCdr(10)
-x.aggregate("test")
-
+    # This method will hold all validations to be done on cdr, 1 validation implemented is to filter out call drops
+    # Input: Mapped dataframe with proper structure and datatypes
+    # Output: Validated frames with all irrelevent records filtered out
+    def validate(self, mapped_frame):
+        validated_df = mapped_frame.filter(mapped_frame['callStatus']==0)
+        return validated_df
+    
+    # Method for flattening cdr data, already recieving flattened data from simulator, if not implementation needs to be provided.
+    # Input: Validated frame 
+    # Output: Flattened frame
+    def aggregate(self, validated_df):
+        return validated_df
 
 
 

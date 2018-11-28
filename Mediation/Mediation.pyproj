@@ -29,7 +29,7 @@ APP_HOME=D:\BillingEngine\Mediation</Environment>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.py" />
-    <Compile Include="org\sfu\billing\controller\controller.py" />
+    <Compile Include="org\sfu\billing\controller\chargingcontroller.py" />
     <Compile Include="org\sfu\billing\controller\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -39,15 +39,15 @@ APP_HOME=D:\BillingEngine\Mediation</Environment>
     <Compile Include="org\sfu\billing\devices\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="org\sfu\billing\mediation\MediationCdr.py" />
-    <Compile Include="org\sfu\billing\mediation\MediationProcess.py" />
+    <Compile Include="org\sfu\billing\mediation\mediationcdr.py" />
+    <Compile Include="org\sfu\billing\mediation\mediationprocess.py" />
     <Compile Include="org\sfu\billing\mediation\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="org\sfu\billing\rating\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="org\sfu\billing\utils\propertiesReader.py" />
+    <Compile Include="org\sfu\billing\utils\propertiesreader.py" />
     <Compile Include="org\sfu\billing\utils\configurations.py" />
     <Compile Include="org\sfu\billing\utils\__init__.py">
       <SubType>Code</SubType>

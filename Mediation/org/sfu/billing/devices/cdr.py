@@ -1,5 +1,6 @@
+from org.sfu.billing.mediation.mediationcdr import MediationCdr
 from pyspark.sql import functions
-from pyspark.sql.functions import split, lit
+from pyspark.sql.functions import split, to_timestamp
 
 class CallDetailRecord(object):
     """Domain class for device type Telco. This class will hold information of how to transform into structured dataframe
@@ -11,23 +12,28 @@ class CallDetailRecord(object):
     def map(self, raw_cdr):
         cdr_df = raw_cdr.select(raw_cdr['value'].cast('string'))
         events = functions.split(cdr_df['value'], ',')
+
         cdr_df = cdr_df.withColumn('customerId', events.getItem(0)) \
-                       .withColumn('dateTimeConnect', events.getItem(1)) \
-                       .withColumn('dateTimeDisconnect',events.getItem(2)) \
+                       .withColumn('dateTimeConnect', to_timestamp(events.getItem(1),format='yyyyMMdd HHmmss')) \
+                       .withColumn('dateTimeDisconnect',to_timestamp(events.getItem(2),format='yyyyMMdd HHmmss')) \
                        .withColumn('origNodeId',events.getItem(3)) \
                        .withColumn('destNodeId',events.getItem(4)) \
                        .withColumn('callingPartyNumber',events.getItem(5)) \
                        .withColumn('originalCalledPartyNumber',events.getItem(6)) \
-                       .withColumn('callStatus',events.getItem(7)) \
+                       .withColumn('callStatus',events.getItem(7).cast('int')) \
                        .withColumn('eventType',events.getItem(8))
 
+        cdr_df.drop(cdr_df['value'])
+        
         return cdr_df
 
     # Method involves in deciding pipeline cdr`s should go through in mediation layer
     # Input: Mapped dataframe
     # Output: Normalized dataframe after going through mediation pipeline
     def invoke_mediation(self, mapped_df):
-        pass
+        mediationCdr = MediationCdr()
+        normalized_frame = mediationCdr.execute(mapped_df)
+        return normalized_frame
 
     # Method involves in deciding pipeline cdr`s should go through in rating layer
     # Input: Normalized dataframe coming from mediation pipeline

@@ -1,20 +1,18 @@
 from pyspark.sql import SparkSession
 from org.sfu.billing.utils.propertiesReader import Properties
 
-
 class SparkConfig:
 
     properties = Properties.load_properties()
 
-    #TODO: Take dependencies(spark.jars.packages) from properties file
     @staticmethod
     def get_spark():
-        print(SparkConfig.properties["DATABASE"]["DB_INPUT_URI"])
+
         spark = SparkSession.builder.appName('Billing_Engine_Listener') \
-            .config("spark.jars.packages","org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.0,org.mongodb.spark:mongo-spark-connector_2.11:2.3.0") \
-            .config('spark.mongodb.input.uri', SparkConfig.properties["DATABASE"]["DB_INPUT_URI"]) \
-            .config('spark.mongodb.output.uri', SparkConfig.properties["DATABASE"]["DB_OUTPUT_URI"]) \
-            .getOrCreate()
+                            .config("spark.jars.packages",SparkConfig.properties["SPARK"]["DEPENDENCIES"]) \
+                            .config('spark.mongodb.input.uri', SparkConfig.properties["DATABASE"]["DB_INPUT_URI"]) \
+                            .config('spark.mongodb.output.uri', SparkConfig.properties["DATABASE"]["DB_OUTPUT_URI"]) \
+                            .getOrCreate()
 
         spark.sparkContext.setLogLevel('WARN')
 
@@ -32,12 +30,9 @@ class SparkConfig:
                         .load()
         return messages
 
-    #TODO: Take streaming time from properties file
     @staticmethod
     def stopStreaming(streamingQuery):
-        streamingQuery.awaitTermination(900000)
-
-    
+        streamingQuery.awaitTermination(SparkConfig.properties.getint("KAFKA","STREAMING_TTL"))
     
 #TODO: This method needs to be moved to data layer
 def save_batch(df, epoch_id):
