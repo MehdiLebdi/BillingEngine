@@ -24,6 +24,11 @@ class Controller:
     # There can be other iot devices as well which can be rated
     def device_type(self,events):
         return CallDetailRecord()
+
+    #def process_row(self,row):
+    #     # Write row to storage
+    #      print("cdr: ", row)
+    #      pass
     
     # Main method which includes logic of Lifecycle of application
     # 1.Starts Streaming process
@@ -41,5 +46,7 @@ class Controller:
         #rated_frame = cdr.invoke_rating(normalized_frame)
         #stream = rated_frame.writeStream.foreachBatch(configurations.save_batch).start()
         stream = normalized_frame.writeStream.foreachBatch(configurations.save_batch).start()
+        #stream = normalized_frame.writeStream.outputMode("append").format("console").start()
         self.spark_config.stopStreaming(stream)
-        pass        
+        pass    
+    

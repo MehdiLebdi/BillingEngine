@@ -23,11 +23,15 @@ class SparkConfig:
         spark = SparkConfig.get_spark()
         bootstrap_servers = SparkConfig.properties["KAFKA"]["SERVER_IP"] + ':' + SparkConfig.properties["KAFKA"]["SERVER_PORT"]
         topics = SparkConfig.properties["KAFKA"]["TOPIC_NAMES"]
+        #bootstrap_servers = "PLAINTEXT://" + bootstrap_servers
+        print("bootstrap_servers: ", bootstrap_servers)
+        #print("topic: ", topics)
 
         messages = spark.readStream.format('kafka') \
                         .option('kafka.bootstrap.servers', bootstrap_servers) \
                         .option('subscribe', topics) \
                         .load()
+
         return messages
 
     @staticmethod
